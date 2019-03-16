@@ -3,7 +3,7 @@ module.exports = class Race {
         this.trigger = '!';
         this.client = client;
         this.races = {};
-        this.admins = ['deserteagle417', 'Syrelash', 'halfarebel', "Lamguin"];
+        this.admins = ['deserteagle417', 'syrelash', 'halfarebel', "lamguin"];
     }
 
     open(channel, user) {
@@ -160,10 +160,11 @@ module.exports = class Race {
 
         const racers = Object.keys(this.races[channel].racers);
         const everyone_has_finished = racers.length === (this.races[channel].place + this.races[channel].forfeits);
+        const is_admin = this.admins.indexOf(user) > -1;
 
-        if (!everyone_has_finished) {
+        if (!is_admin && !everyone_has_finished) {
             this.client.action(channel, `Not all racers have ${this.trigger} done. Please have a moderator end the race.`)
-        } else if (this.admins.indexOf(user) > -1 || everyone_has_finished) {
+        } else if (is_admin || everyone_has_finished) {
             delete this.races[channel];
 
             this.client.action(channel,'The race has ended.');

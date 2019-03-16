@@ -28,10 +28,7 @@ client.connect();
 function onMessageHandler (channel, userstate, msg, self) {
     if (self) { return; } // Ignore messages from the bot
 
-    console.log(msg);
-
     if (msg.charAt(0) !== trigger) {
-        console.log("Command character not found.");
         return;
     }
 
@@ -67,7 +64,7 @@ function onMessageHandler (channel, userstate, msg, self) {
             break;
 
         case "end":
-            race_plugin.end(channel);
+            race_plugin.end(channel, username);
             break;
 
         case "restart":
