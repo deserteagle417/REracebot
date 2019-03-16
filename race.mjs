@@ -189,10 +189,13 @@ module.exports = class Race {
 
             racers.forEach(function(racer) {
                 const racer_info = _this.races[channel].racers[racer];
-                const time = _this.final_time(start_time, racer_info.end_time);
-                const place = racer_info.place;
 
-                _this.client.action(channel, `${place}. ${racer} ${time}`);
+                if (!racer_info.forfeit) {
+                    const time = _this.final_time(start_time, racer_info.end_time);
+                    const place = racer_info.place;
+
+                    _this.client.action(channel, `${place}. ${racer} ${time}`);
+                }
             });
 
             delete this.races[channel];
