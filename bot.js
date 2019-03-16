@@ -41,7 +41,7 @@ function onMessageHandler (channel, userstate, msg, self) {
 
     switch(commandName) {
         case "open":
-            race_plugin.open(channel);
+            race_plugin.open(channel, username);
             break;
 
         case "join":
