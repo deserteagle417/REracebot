@@ -33,7 +33,7 @@ function onMessageHandler (channel, userstate, msg, self) {
     }
 
     // Remove trigger & whitespace from chat message
-    const commandName = msg.substr(1).trim();
+    const commandName = msg.substr(1).split(' ')[0].trim();
     const username = userstate.username;
 
     switch(commandName) {
@@ -76,7 +76,7 @@ function onMessageHandler (channel, userstate, msg, self) {
             break;
 
         case "bop":
-            const bopped_user = msg.split(' ')[1];
+            const bopped_user = msg.split(' ')[1].toLocaleLowerCase();
             race_plugin.bop_user(channel, bopped_user);
             break;
 
