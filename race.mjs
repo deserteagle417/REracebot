@@ -45,11 +45,26 @@ module.exports = class Race {
 
     bop_user(channel, user, bopped_user) {
         if (this.admins.indexOf(user) === -1) {
-            return this.client.action(channel, 'Insufficient permission.');
-        }
+            return this.client.action(channel, `Who do you think you are ${user}?! FUNgineer`);
+        } else if (this.races[channel] === undefined) {
+            this.client.action(channel, `Can't bop anyone if there's no race! NotLikeThis`);
+        } else if (this.races[channel] !== undefined && bopped_user === undefined) {
+            this.client.action(channel, `I can't bop anyone if you don't tell me who to bop! OpieOP`);
+        } else if (bopped_user !== undefined && this.is_user_in_race(channel, bopped_user)) {
+            const user_info = this.races[channel].racers[bopped_user];
 
-        delete this.races[channel].racers[bopped_user];
-        this.client.action(channel, `${bopped_user} has been removed from the race.`);
+            if (user_info.end_time !== null) {
+                this.races[channel].place--;
+            }
+            if (user_info.forfeit) {
+                this.races[channel].forfeits--;
+            }
+
+            delete this.races[channel].racers[bopped_user];
+            this.client.action(channel, `Fuck outta here, ${bopped_user}! Jebaited`);
+        } else {
+            this.client.action(channel, `How you gonna try and bop someone not in the race?! cmonBruh`);
+        }
     }
 
     unjoin(channel, user) {
@@ -85,7 +100,7 @@ module.exports = class Race {
         if (this.racer_count(channel) === (this.races[channel].place + this.races[channel].forfeits)) {
             delete this.races[channel];
 
-            this.client.action(channel,'The race has ended.');
+            this.client.action(channel, 'The race has ended.');
         }
     }
 
@@ -116,7 +131,7 @@ module.exports = class Race {
         if (this.racer_count(channel) === (this.races[channel].place + this.races[channel].forfeits)) {
             delete this.races[channel];
 
-            this.client.action(channel,'The race has ended.');
+            this.client.action(channel, 'The race has ended.');
         }
     }
 
@@ -187,7 +202,7 @@ module.exports = class Race {
             this.client.action(channel, 'Final times:');
             const start_time = this.races[channel].start_time;
 
-            racers.forEach(function(racer) {
+            racers.forEach(function (racer) {
                 const racer_info = _this.races[channel].racers[racer];
 
                 if (!racer_info.forfeit) {
@@ -199,7 +214,7 @@ module.exports = class Race {
             });
 
             delete this.races[channel];
-            this.client.action(channel,'The race has ended.');
+            this.client.action(channel, 'The race has ended.');
         }
     }
 
@@ -216,7 +231,7 @@ module.exports = class Race {
             return this.client.action(channel, "No racers have joined this race.");
         }
 
-        racers.forEach(function(racer) {
+        racers.forEach(function (racer) {
             msg = msg + " https://twitch.tv/" + racer;
 
             if (i < racers.length) {
@@ -236,31 +251,31 @@ module.exports = class Race {
         this.join(channel, 'testUser');
         this.start(channel);
 
-        setTimeout(function() {
+        setTimeout(function () {
             _this.client.action('Test: Test2 joining the race');
             _this.join(channel, 'test2');
         }, 15000);
 
-        setTimeout(function() {
+        setTimeout(function () {
             _this.client.action(channel, 'Test: testUser finishes the race');
             _this.debug(channel);
             _this.done(channel, 'testUser');
         }, 16000);
 
-        setTimeout(function() {
+        setTimeout(function () {
             _this.client.action(channel, 'Test: DE $forfeit and then $done...');
             _this.forfeit(channel, 'deserteagle417');
             _this.done(channel, 'deserteagle417');
         }, 17000);
 
-        setTimeout(function() {
+        setTimeout(function () {
             _this.client.action(channel, 'Test: Syrelash finishes first.');
             _this.done(channel, 'Syrelash');
         }, 18000);
 
         //setTimeout(function() {
-          //  _this.client.action(channel, 'Test: race closed by mod');
-            //_this.end(channel, 'Syrelash');
+        //  _this.client.action(channel, 'Test: race closed by mod');
+        //_this.end(channel, 'Syrelash');
         //}, 19000);
     }
 
@@ -298,6 +313,6 @@ module.exports = class Race {
         const mm = Math.floor((finish_time - start_time) / 60000) - 60 * hh;
         const ss = Math.floor((finish_time - start_time) / 1000) - 60 * mm - 3600 * hh;
 
-        return `${hh}:${mm.padStart(2, "0")}:${ss.padStart(2, "0")}`;
+        return `${hh}:${mm.toString().padStart(2, "0")}:${ss.toString().padStart(2, "0")}`;
     }
 };
