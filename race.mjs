@@ -175,7 +175,7 @@ module.exports = class Race {
         const is_admin = this.admins.indexOf(user) > -1;
 
         if (!is_admin && !everyone_has_finished) {
-            this.client.action(channel, `Not all racers have ${this.trigger} done. Please have a moderator end the race.`)
+            this.client.action(channel, `Not all racers have ${this.trigger}done. Please have a moderator end the race.`)
         } else if (is_admin || everyone_has_finished) {
             delete this.races[channel];
 
