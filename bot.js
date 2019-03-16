@@ -77,7 +77,7 @@ function onMessageHandler (channel, userstate, msg, self) {
 
         case "bop":
             const bopped_user = msg.split(' ')[1].toLocaleLowerCase();
-            race_plugin.bop_user(channel, bopped_user);
+            race_plugin.bop_user(channel, username, bopped_user);
             break;
 
         case "test":

@@ -43,13 +43,13 @@ module.exports = class Race {
         }
     }
 
-    bop_user(channel, user) {
+    bop_user(channel, user, bopped_user) {
         if (this.admins.indexOf(user) === -1) {
             return this.client.action(channel, 'Insufficient permission.');
         }
 
-        delete this.races[channel].racers[user];
-        this.client.action(channel, `${user} has been removed from the race.`);
+        delete this.races[channel].racers[bopped_user];
+        this.client.action(channel, `${bopped_user} has been removed from the race.`);
     }
 
     unjoin(channel, user) {
