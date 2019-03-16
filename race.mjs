@@ -106,12 +106,9 @@ module.exports = class Race {
             const place = this.races[channel].place;
             userInfo.end_time = Date.now();
             userInfo.place = place;
+            const time = this.final_time(start_time, userInfo.end_time);
 
-            const hour = this.time_hours(start_time, userInfo.end_time);
-            const min = this.time_minutes(start_time, userInfo.end_time);
-            const sec = this.time_seconds(start_time, userInfo.end_time);
-
-            this.client.action(channel, `${user} has finished in position ${place} with a time of ${hour}:${min.padStart(2, "0")}:${sec.padStart(2, "0")}`);
+            this.client.action(channel, `${user} has finished in position ${place} with a time of ${time}`);
         } else {
             this.client.action(channel, `${user} is not in current race.`);
         }
@@ -179,6 +176,7 @@ module.exports = class Race {
             this.client.action(channel, `How about you open the race first... DansGame`);
         }
 
+        const _this = this;
         const racers = Object.keys(this.races[channel].racers);
         const everyone_has_finished = racers.length === (this.races[channel].place + this.races[channel].forfeits);
         const is_admin = this.admins.indexOf(user) > -1;
@@ -186,8 +184,18 @@ module.exports = class Race {
         if (!is_admin && !everyone_has_finished) {
             this.client.action(channel, `Not all racers have ${this.trigger}done. Please have a moderator end the race.`)
         } else if (is_admin || everyone_has_finished) {
-            delete this.races[channel];
+            this.client.action(channel, 'Final times:');
+            const start_time = this.races[channel].start_time;
 
+            racers.forEach(function(racer) {
+                const racer_info = _this.races[channel].racers[racer];
+                const time = _this.final_time(start_time, racer_info.end_time);
+                const place = racer_info.place;
+
+                _this.client.action(channel, `${place}. ${racer} ${time}`);
+            });
+
+            delete this.races[channel];
             this.client.action(channel,'The race has ended.');
         }
     }
@@ -282,22 +290,11 @@ module.exports = class Race {
         this.trigger = character;
     }
 
-    //Next 3 functions are used to compute the hour, minute, and seconds of the finishing time of a user upon calling !done
-    time_hours(start_time, finish_time) {
-        const hh = Math.floor((finish_time - start_time) / 3600000);
-        return hh.toString();
-    }
-
-    time_minutes(start_time, finish_time) {
-        const hh = Math.floor((finish_time - start_time) / 3600000);
-        const mm = Math.floor((finish_time - start_time) / 60000) - 60 * hh;
-        return mm.toString();
-    }
-
-    time_seconds(start_time, finish_time) {
+    final_time(start_time, finish_time) {
         const hh = Math.floor((finish_time - start_time) / 3600000);
         const mm = Math.floor((finish_time - start_time) / 60000) - 60 * hh;
         const ss = Math.floor((finish_time - start_time) / 1000) - 60 * mm - 3600 * hh;
-        return ss.toString();
+
+        return `${hh}:${mm.padStart(2, "0")}:${ss.padStart(2, "0")}`;
     }
 };
