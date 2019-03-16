@@ -75,6 +75,11 @@ function onMessageHandler (channel, userstate, msg, self) {
             race_plugin.shoutout(channel);
             break;
 
+        case "bop":
+            const bopped_user = msg.split(' ')[1];
+            race_plugin.bop(channel, bopped_user);
+            break;
+
         case "test":
             race_plugin.test(channel);
             break;
