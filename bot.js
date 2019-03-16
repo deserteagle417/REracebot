@@ -63,7 +63,7 @@ function onMessageHandler (channel, userstate, msg, self) {
             break;
 
         case "done":
-            race_plugin.done(channel);
+            race_plugin.done(channel, username);
             break;
 
         case "end":
@@ -87,7 +87,7 @@ function onMessageHandler (channel, userstate, msg, self) {
             break;
 
         default:
-            console.log(msg);
+            console.log(username, msg);
             break;
     }
 }
