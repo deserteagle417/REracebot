@@ -11,6 +11,10 @@ module.exports = class Race {
             return this.client.action(channel, `Please end the current race before starting a new one.`);
         }
 
+        if (this.admins.indexOf(user) === -1) {
+            return this.client.action(channel, 'Please ask an admin to open the race.');
+        }
+
         this.races[channel] = {
             start_time: null,
             place: 0,
@@ -110,9 +114,13 @@ module.exports = class Race {
         }
     }
 
-    start(channel) {
+    start(channel, user) {
         if (!this.is_race_open(channel)) {
             return this.client.action(channel, `The race has already started.`);
+        }
+
+        if (this.admins.indexOf(user) === -1) {
+            return this.client.action(channel, 'Please ask an admin to start the race.');
         }
 
         const _this = this;
@@ -147,6 +155,10 @@ module.exports = class Race {
     restart(channel) {
         if (this.races[channel] === undefined) {
             return this.client.action(channel, `There is currently no race in progress.`);
+        }
+
+        if (this.admins.indexOf(user) === -1) {
+            return this.client.action(channel, 'Please ask an admin to reset the race.');
         }
 
         this.races[channel].start_time = null;

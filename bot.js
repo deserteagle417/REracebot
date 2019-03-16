@@ -51,7 +51,7 @@ function onMessageHandler (channel, userstate, msg, self) {
             break;
 
         case "start":
-            race_plugin.start(channel);
+            race_plugin.start(channel, username);
             break;
 
         case "forfeit":
@@ -68,7 +68,7 @@ function onMessageHandler (channel, userstate, msg, self) {
             break;
 
         case "restart":
-            race_plugin.restart(channel);
+            race_plugin.restart(channel, username);
             break;
 
         case "racers":
