@@ -68,15 +68,16 @@ function onMessageHandler (channel, userstate, msg, self) {
             break;
 
         case "restart":
+        case "reset":
             race_plugin.restart(channel, username);
             break;
 
-        case "racers":
+        case "entrants":
             race_plugin.shoutout(channel);
             break;
 
         case "bop":
-            const bopped_user = msg.split(' ')[1].toLocaleLowerCase();
+            const bopped_user = msg.split(' ')[1];
             race_plugin.bop_user(channel, username, bopped_user);
             break;
 
