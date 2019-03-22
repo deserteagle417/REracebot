@@ -3,7 +3,7 @@ module.exports = class Race {
         this.trigger = '!';
         this.client = client;
         this.races = {};
-        this.admins = ['deserteagle417', 'syrelash', 'halfarebel', "lamguin"];
+        this.admins = ['admin_names' ];
     }
 
     open(channel, user) {
@@ -224,7 +224,7 @@ module.exports = class Race {
         }
 
         const racers = Object.keys(this.races[channel].racers);
-        let msg = "Be sure to follow the runners. ";
+        let msg = "The following runners have entered the race:";
         let i = 1;
 
         if (racers.length === 0) {
@@ -232,7 +232,7 @@ module.exports = class Race {
         }
 
         racers.forEach(function (racer) {
-            msg = msg + " https://twitch.tv/" + racer;
+            msg = msg + racer;
 
             if (i < racers.length) {
                 msg = msg + " - ";
