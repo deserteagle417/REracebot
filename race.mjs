@@ -284,6 +284,9 @@ module.exports = class Race {
     }
 
     test(channel) {
+        if (this.admins.indexOf(user) === -1) {
+            return;
+        }
         const _this = this;
 
         this.open(channel, 'testUser1');
