@@ -82,7 +82,7 @@ function onMessageHandler (channel, userstate, msg, self) {
             break;
 
         case "test":
-            race_plugin.test(channel);
+            race_plugin.test(channel,username);
             break;
 
         case "debug":

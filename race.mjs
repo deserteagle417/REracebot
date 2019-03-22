@@ -283,7 +283,7 @@ module.exports = class Race {
         this.client.action(channel, msg);
     }
 
-    test(channel) {
+    test(channel,user) {
         if (this.admins.indexOf(user) === -1) {
             return;
         }
