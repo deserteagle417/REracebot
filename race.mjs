@@ -1,4 +1,9 @@
 const fs = require('fs');
+const Gists = require('gists');
+const gists = new Gists({
+    username: 'github-username',
+    password: 'github-password'
+})
 
 module.exports = class Race {
     constructor(client) {
@@ -108,14 +113,18 @@ module.exports = class Race {
 
     forfeit(channel, user) {
         if (this.is_race_open(channel)) {
-            return this.client.action(channel, `The race has is currently open. Join with ${this.trigger}join`);
+            return this.client.action(channel, `Race entry is currently open. To unjoin, type ${this.trigger}unjoin.`);
         }
 
         if (this.is_user_in_race(channel, user)) {
             this.races[channel].forfeits++;
             this.races[channel].racers[user].forfeit = true;
 
-            this.client.action(channel, `${user} has quit the race.`);
+            if (user === 'deserteagle417') {
+                this.client.action(channel, "Are you fucking kidding me?! Scrub.");
+            } else {
+                this.client.action(channel, `${user} has quit the race.`);
+            }
 
             this.log(channel, `${user} has forfeit the race.`);
             this.end(channel, 'internal_system_call');
@@ -260,6 +269,7 @@ module.exports = class Race {
     }
 
     shoutout(channel) {
+
         if (this.races[channel] === undefined) {
             return this.client.action("No current races are in progress.");
         }
@@ -281,6 +291,15 @@ module.exports = class Race {
         });
 
         this.client.action(channel, msg);
+    }
+
+    how_to(channel) {
+
+        this.client.say(channel, `After a race has been opened, type ${this.trigger}join to enter the race. If you have joined, 
+                                    but no longer want to play, type ${this.trigger}unjoin to leave the race before it has started.
+                                    Once the race has started, type ${this.trigger}done to indicate you've finished the race or type
+                                    ${this.trigger}quit to forfeit the race.`);
+
     }
 
     test(channel,user) {

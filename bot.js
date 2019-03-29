@@ -81,6 +81,10 @@ function onMessageHandler (channel, userstate, msg, self) {
             race_plugin.bop_user(channel, username, bopped_user);
             break;
 
+        case "howtorace":
+            race_plugin.how_to(channel);
+            break;
+
         case "test":
             race_plugin.test(channel,username);
             break;
