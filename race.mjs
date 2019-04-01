@@ -1,9 +1,5 @@
 const fs = require('fs');
 const Gists = require('gists');
-const gists = new Gists({
-    username: 'github-username',
-    password: 'github-password'
-})
 
 module.exports = class Race {
     constructor(client) {
@@ -31,6 +27,7 @@ module.exports = class Race {
             forfeits: 0,
             racers: {},
             results: [],
+            log_filename: log_filename,
             log: fs.createWriteStream(log_filename, {flags: 'a'})
         };
 
@@ -232,14 +229,19 @@ module.exports = class Race {
         const everyone_has_finished = racers.length === (race.place + race.forfeits);
         const is_admin = this.admins.indexOf(user) > -1;
         const is_internal = user === 'internal_system_call';
+        const _this = this;
+        const _channel = channel;
 
         if (!is_internal && !is_admin && !everyone_has_finished) {
             this.client.action(channel, `Not all racers have ${this.trigger}done. Please have a moderator end the race.`)
         } else if (is_admin || everyone_has_finished) {
             this.print_results(channel);
+            this.races[channel].log.on('close', function() {
+                _this.upload_log(_channel);
+                delete _this.races[_channel];
+                _this.client.action(_channel, 'The race has ended.');
+            });
             this.races[channel].log.end();
-            delete this.races[channel];
-            this.client.action(channel, 'The race has ended.');
         }
     }
 
@@ -266,6 +268,37 @@ module.exports = class Race {
             }
         });
         this.log_breakline(channel);
+    }
+
+    upload_log(channel) {
+        const race = this.races[channel];
+        const log_filename = race.log_filename;
+        const _this = this;
+
+        try {
+            const gists = new Gists({
+                username: process.env.GITHUB_USERNAME,
+                password: process.env.GITHUB_PASSWORD
+            });
+            const log_contents = fs.readFileSync(log_filename, 'utf8');
+            const date = new Date();
+            let options = {
+                description: `Race Log ${date.getDay()}-${date.getMonth()}-${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()} GMT`,
+                public: true,
+                files: {
+
+                }
+            };
+            options.files[log_filename.replace('#', '')] = { content: log_contents };
+            gists.create(options).then(function(response) {
+                const gist_url = response.body.html_url;
+                _this.client.action(channel, `Results: ${gist_url}`);
+                console.log(response.body);
+                console.log("Uploaded log", gist_url);
+            }).catch(console.error);
+        } catch(e) {
+            console.log("Shit... can't read log file.", e, e.stack);
+        }
     }
 
     shoutout(channel) {
