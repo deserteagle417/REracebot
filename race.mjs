@@ -169,11 +169,12 @@ module.exports = class Race {
         }
 
         const _this = this;
-        this.client.action(channel, `Entry for the race has been closed.`);
-        this.client.action(channel, `The race will begin in 10 seconds!`);
 
         if (this.racer_count(channel) >= 2) {
             this.races[channel].start_time = -1;
+
+            _this.client.action(channel, `Entry for the race has been closed.`);
+            _this.client.action(channel, `The race will begin in 10 seconds!`);
 
             setTimeout(function () {
                 _this.client.action(channel, `5`)
@@ -217,6 +218,34 @@ module.exports = class Race {
         this.client.action(channel, `Current race has been reset. Use ${this.trigger}start to create a new countdown.`);
 
         this.log(channel, `The race was reset.`);
+    }
+
+    countdown(channel, user) {
+        if (this.admins.indexOf(user) === -1) {
+            return this.client.action(channel, 'Only an admin may initiate a countdown! BabyRage');
+        }
+
+        this.client.action(channel, `The race will begin in 10 seconds!`);
+
+        setTimeout(function () {
+            this.client.action(channel, `5`)
+        }, 5000);
+        setTimeout(function () {
+            this.client.action(channel, `4`)
+        }, 6000);
+        setTimeout(function () {
+            this.client.action(channel, `3`)
+        }, 7000);
+        setTimeout(function () {
+            this.client.action(channel, `2`)
+        }, 8000);
+        setTimeout(function () {
+            this.client.action(channel, `1`)
+        }, 9000);
+        setTimeout(function () {
+            this.client.action(channel, `GO!`);
+            }, 10000);
+
     }
 
     end(channel, user) {

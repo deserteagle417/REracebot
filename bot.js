@@ -72,6 +72,10 @@ function onMessageHandler (channel, userstate, msg, self) {
             race_plugin.restart(channel, username);
             break;
 
+        case "countdown":
+            race_plugin.countdown(channel, username);
+            break;
+
         case "entrants":
             race_plugin.shoutout(channel);
             break;
