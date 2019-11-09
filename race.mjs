@@ -225,25 +225,27 @@ module.exports = class Race {
             return this.client.action(channel, 'Only an admin may initiate a countdown! BabyRage');
         }
 
+        const _this = this;
+
         this.client.action(channel, `The race will begin in 10 seconds!`);
 
         setTimeout(function () {
-            this.client.action(channel, `5`)
+            _this.client.action(channel, `5`)
         }, 5000);
         setTimeout(function () {
-            this.client.action(channel, `4`)
+            _this.client.action(channel, `4`)
         }, 6000);
         setTimeout(function () {
-            this.client.action(channel, `3`)
+            _this.client.action(channel, `3`)
         }, 7000);
         setTimeout(function () {
-            this.client.action(channel, `2`)
+            _this.client.action(channel, `2`)
         }, 8000);
         setTimeout(function () {
-            this.client.action(channel, `1`)
+            _this.client.action(channel, `1`)
         }, 9000);
         setTimeout(function () {
-            this.client.action(channel, `GO!`);
+            _this.client.action(channel, `GO!`);
             }, 10000);
 
     }
@@ -393,27 +395,30 @@ module.exports = class Race {
         const partner = Math.floor(Math.random()*2);
         const files = Math.floor(Math.random()*2);
         const maps = Math.floor(Math.random()*2);
-        const keys = Math.floor(Math.random()*2);        
+        const keys = Math.floor(Math.random()*2); 
+        
+        const _this = this;
 
         this.client.action(channel, `${user} rolls the dice!`);
         setTimeout(function () {
-            this.client.action(channel, `BOUNTIES`);
-            this.client.action(channel, `==================`);
-            this.client.action(channel, `Zombie Kills: ${zombie}`);
-            this.client.action(channel, `Dog Kills: ${dog}`);
-            this.client.action(channel, `Spider Kills: ${spider}`);
-            this.client.action(channel, `Hunter Kills: ${hunter}`);
-            this.client.action(channel, `Naked Zombie Kills: ${naked}`);
-            this.client.action(channel, `Chimera Kills: ${chimera}`);
-            this.client.action(channel, `Defeat Yawn 1: ${this.yes_no(yawn)}`);
-            this.client.action(channel, `Kill Neptune: ${this.yes_no(neptune)}`);
-            this.client.action(channel, `Kill Black Tiger: ${this.yes_no(bt)}`);
-            this.client.action(channel, `Use V-Jolt: ${this.yes_no(vjolt)}`);
-            this.client.action(channel, `Clear Crow Room: ${this.yes_no(crows)}`);
-            this.client.action(channel, `Rescue Jill/Chris: ${this.yes_no(partner)}`);
-            this.client.action(channel, `Collect All Files: ${this.yes_no(files)}`);
-            this.client.action(channel, `Collect All Maps: ${this.yes_no(maps)}`);
-            this.client.action(channel, `Burn All Mansion Keys: ${this.yes_no(keys)}`);
+            _this.client.action(channel, `BOUNTIES`);
+            _this.client.action(channel, `==================`);
+            _this.client.action(channel, `Zombie Kills: ${zombie}`);
+            _this.client.action(channel, `Dog Kills: ${dog}`);
+            _this.client.action(channel, `Spider Kills: ${spider}`);
+            _this.client.action(channel, `Hunter Kills: ${hunter}`);
+            _this.client.action(channel, `Naked Zombie Kills: ${naked}`);
+            _this.client.action(channel, `Chimera Kills: ${chimera}`);
+            _this.client.action(channel, `Defeat Yawn 1: ${_this.yes_no(yawn)}`);
+            _this.client.action(channel, `Kill Neptune: ${_this.yes_no(neptune)}`);
+            _this.client.action(channel, `Kill Black Tiger: ${_this.yes_no(bt)}`);
+            _this.client.action(channel, `Use V-Jolt: ${_this.yes_no(vjolt)}`);
+            _this.client.action(channel, `Clear Crow Room: ${_this.yes_no(crows)}`);
+            _this.client.action(channel, `Rescue Jill/Chris: ${_this.yes_no(partner)}`);
+            _this.client.action(channel, `Collect All Files: ${_this.yes_no(files)}`);
+            _this.client.action(channel, `Collect All Maps: ${_this.yes_no(maps)}`);
+            _this.client.action(channel, `Burn All Mansion Keys: ${_this.yes_no(keys)}`);
+            _this.client.action(channel, `==================`);
         }, 3000);
     }
 
