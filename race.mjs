@@ -6,7 +6,7 @@ module.exports = class Race {
         this.trigger = '!';
         this.client = client;
         this.races = {};
-        this.admins = ['testUser1, testUser3, testUser5' ];
+        this.admins = ['testUser1', 'testUser3', 'testUser5' ];
     }
 
     open(channel, user) {
@@ -362,6 +362,59 @@ module.exports = class Race {
                                     Once the race has started, type ${this.trigger}done to indicate you've finished the race or type
                                     ${this.trigger}quit to forfeit the race.`);
 
+    }
+
+    yes_no(i) {
+
+        if (i === 1) {
+            return 'yes';
+        }
+
+        return 'no';
+    }
+
+    bounty(channel, user) {
+
+        if (this.admins.indexOf(user) === -1) {
+            return;
+        }
+        
+        const zombie = Math.floor(Math.random()*31);
+        const dog = Math.floor(Math.random()*7);
+        const spider = Math.floor(Math.random()*5);
+        const hunter = Math.floor(Math.random()*19);
+        const naked = Math.floor(Math.random()*17);
+        const chimera = Math.floor(Math.random()*7);
+        const yawn = Math.floor(Math.random()*2);
+        const neptune = Math.floor(Math.random()*2);
+        const bt = Math.floor(Math.random()*2);
+        const vjolt = Math.floor(Math.random()*2);
+        const crows = Math.floor(Math.random()*2);
+        const partner = Math.floor(Math.random()*2);
+        const files = Math.floor(Math.random()*2);
+        const maps = Math.floor(Math.random()*2);
+        const keys = Math.floor(Math.random()*2);        
+
+        this.client.action(channel, `${user} rolls the dice!`);
+        setTimeout(function () {
+            this.client.action(channel, `BOUNTIES`);
+            this.client.action(channel, `==================`);
+            this.client.action(channel, `Zombie Kills: ${zombie}`);
+            this.client.action(channel, `Dog Kills: ${dog}`);
+            this.client.action(channel, `Spider Kills: ${spider}`);
+            this.client.action(channel, `Hunter Kills: ${hunter}`);
+            this.client.action(channel, `Naked Zombie Kills: ${naked}`);
+            this.client.action(channel, `Chimera Kills: ${chimera}`);
+            this.client.action(channel, `Defeat Yawn 1: ${this.yes_no(yawn)}`);
+            this.client.action(channel, `Kill Neptune: ${this.yes_no(neptune)}`);
+            this.client.action(channel, `Kill Black Tiger: ${this.yes_no(bt)}`);
+            this.client.action(channel, `Use V-Jolt: ${this.yes_no(vjolt)}`);
+            this.client.action(channel, `Clear Crow Room: ${this.yes_no(crows)}`);
+            this.client.action(channel, `Rescue Jill/Chris: ${this.yes_no(partner)}`);
+            this.client.action(channel, `Collect All Files: ${this.yes_no(files)}`);
+            this.client.action(channel, `Collect All Maps: ${this.yes_no(maps)}`);
+            this.client.action(channel, `Burn All Mansion Keys: ${this.yes_no(keys)}`);
+        }, 3000);
     }
 
     test(channel,user) {

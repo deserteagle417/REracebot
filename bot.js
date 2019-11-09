@@ -89,6 +89,10 @@ function onMessageHandler (channel, userstate, msg, self) {
             race_plugin.how_to(channel);
             break;
 
+        case "bounty":
+            race_plugin.bounty(channel, username);
+            break;
+
         case "test":
             race_plugin.test(channel,username);
             break;
