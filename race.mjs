@@ -381,12 +381,12 @@ module.exports = class Race {
             return;
         }
         
-        const zombie = Math.floor(Math.random()*31);
-        const dog = Math.floor(Math.random()*7);
-        const spider = Math.floor(Math.random()*5);
-        const hunter = Math.floor(Math.random()*19);
-        const naked = Math.floor(Math.random()*17);
-        const chimera = Math.floor(Math.random()*7);
+        const zombie = Math.floor(Math.random()*26) + 5;
+        const dog = Math.floor(Math.random()*6) + 1;
+        const spider = Math.floor(Math.random()*4) + 1;
+        const hunter = Math.floor(Math.random()*16) + 3;
+        const naked = Math.floor(Math.random()*14) + 3;
+        const chimera = Math.floor(Math.random()*6) + 1;
         const yawn = Math.floor(Math.random()*2);
         const neptune = Math.floor(Math.random()*2);
         const bt = Math.floor(Math.random()*2);
